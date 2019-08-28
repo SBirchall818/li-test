@@ -1,3 +1,6 @@
-process.argv.slice(2).forEach((val, index) => {
-  console.log(`${index}: ${val}`)
-})
+import start from './src/start';
+
+// Assume only arguments it takes are relative files in the data directory
+const relativeFileArray = process.argv.slice(2);
+
+start(relativeFileArray);
