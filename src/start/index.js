@@ -1,7 +1,7 @@
 import _processSingleFile from '../processSingleFile';
 
-export default function start(relativeFileArray, processSingleFile = _processSingleFile) {
-  relativeFileArray.forEach((val, index) => {
-    processSingleFile(val, index);
-  });
+export default async function start(relativeFileArray, processSingleFile = _processSingleFile) {
+  for (let i = 0; i < relativeFileArray.length; i++) {
+    await processSingleFile(relativeFileArray[i], i);
+  }
 }

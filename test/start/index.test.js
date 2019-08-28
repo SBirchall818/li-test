@@ -8,10 +8,10 @@ describe('fluff :: ', () => {
     should.exist(start);
   });
 
-  it('should call processSingleFile for each file path', () => {
-    var processSingleFileSpy = sinon.spy();
+  it('should call processSingleFile for each file path', async () => {
+    var processSingleFileSpy = sinon.stub().resolves(true);
     var fileArray = ['path1', 'path2', 'path3'];
-    start(fileArray, processSingleFileSpy);
+    await start(fileArray, processSingleFileSpy);
     processSingleFileSpy.calledThrice.should.be.true();
   });
 });
