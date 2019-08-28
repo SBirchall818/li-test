@@ -8,8 +8,8 @@ const DATA_DIRECTORY = '/Users/sbirchall/Code/LandInsight/li-test/data/'
 export default function processSingleFile(relativeFilePath, index, chunkSize = 24, logger = _logger, fs = _fs, csv = _csv, insertOrUpdateEpcs = _insertOrUpdateEpcs) {
   return new Promise((resolve, reject) => {
     var chunkedEpcArray = [];
+    let chunkNumber = 0;
     if (chunkSize > 1000) chunkSize = 1000; // TODO put this in a separate function
-    chunkSize = 24; // TODO - remove after debugging
 
     logger.log(`${index}: ${relativeFilePath}`);
     const absolutePath = DATA_DIRECTORY + relativeFilePath;
@@ -21,31 +21,37 @@ export default function processSingleFile(relativeFilePath, index, chunkSize = 2
       .on('end', handleEnd);
 
     function handleError(error) {
-    
+      logger.log(`Stream read error: ${error}`);
     }
     
     async function handleData(row) {
-      const readEpc = {
-        lmk_key: row.LMK_KEY,
-        lodgement_date: row.LODGEMENT_DATE,
-        transaction_type: row.TRANSACTION_TYPE,
-        total_floor_area: row.TOTAL_FLOOR_AREA,
-        address: row.ADDRESS,
-        postcode: row.POSTCODE
-      };
+      try {
+        var readEpc = {
+          lmk_key: row.LMK_KEY,
+          lodgement_date: row.LODGEMENT_DATE,
+          transaction_type: row.TRANSACTION_TYPE,
+          total_floor_area: row.TOTAL_FLOOR_AREA,
+          address: row.ADDRESS,
+          postcode: row.POSTCODE
+        };
+      } catch (err) {
+        logger.log(`CSV read error: ${err}`);
+      }
 
       chunkedEpcArray.push(readEpc);
       if (chunkedEpcArray.length >= chunkSize) {
         readable.pause();
-        await insertOrUpdateEpcs(chunkedEpcArray);
-        readable.resume();
+        await insertOrUpdateEpcs(chunkedEpcArray, chunkNumber);
         chunkedEpcArray = [];
+        chunkNumber++;
+        readable.resume();
       }
     }
     
     async function handleEnd() {
+      logger.log('end of file stream');
       if (chunkedEpcArray.length > 0) {
-        await insertOrUpdateEpcs(chunkedEpcArray);
+        await insertOrUpdateEpcs(chunkedEpcArray, chunkNumber);
       }
       resolve();
     }

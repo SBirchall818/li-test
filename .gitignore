@@ -62,3 +62,6 @@ typings/
 
 # Unzipped Certificate Data
 data/
+data-large/
+data-small/
+.DS_Store

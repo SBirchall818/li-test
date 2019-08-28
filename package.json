@@ -4,7 +4,7 @@
   "description": "Overview ---",
   "main": "index.js",
   "scripts": {
-    "start": "node -r esm index.js",
+    "start": "bash run.sh",
     "test": "mocha --recursive --require esm"
   },
   "repository": {

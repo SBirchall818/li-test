@@ -1,10 +1,11 @@
 import _models from '../models';
 import _fetchLatLong from './fetchLatLong';
+import * as _logger from '../logger';
 const _co = require('co');
 
-export default async function insertOrUpdateEpcs(chunkedEpcArray, models = _models, fetchLatLong = _fetchLatLong, co = _co) {
+export default async function insertOrUpdateEpcs(chunkedEpcArray, chunkNumber, models = _models, fetchLatLong = _fetchLatLong, co = _co, logger = _logger) {
   return co(function* () {
-    console.log('insertOrUpdateEpcs via chunkedEpcArray ...');
+    logger.log(`insertOrUpdateEpcs chunkNumber: ${chunkNumber}`);
 
     const arrayOfPromises = chunkedEpcArray.map( epc => {
       return fetchLatLong(epc);
