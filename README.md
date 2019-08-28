@@ -5,14 +5,19 @@ Overview
 
 Instructions
 ---
-Install node libraries
+**Install node libraries**
 ```
 npm i
 ```
 
-Run
+**Run**
 ```
 npm start
+```
+
+**Test**
+```
+npm test
 ```
 
 Assumptions
