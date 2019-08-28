@@ -8,6 +8,8 @@ const DATA_DIRECTORY = '/Users/sbirchall/Code/LandInsight/li-test/data/'
 export default function processSingleFile(relativeFilePath, index, chunkSize = 24, logger = _logger, fs = _fs, csv = _csv, insertOrUpdateEpcs = _insertOrUpdateEpcs) {
   return new Promise((resolve, reject) => {
     var chunkedEpcArray = [];
+    if (chunkSize > 1000) chunkSize = 1000; // TODO put this in a separate function
+    chunkSize = 24; // TODO - remove after debugging
 
     logger.log(`${index}: ${relativeFilePath}`);
     const absolutePath = DATA_DIRECTORY + relativeFilePath;
