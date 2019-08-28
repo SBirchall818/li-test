@@ -24,7 +24,7 @@ export default function processSingleFile(relativeFilePath, index, chunkSize = 2
     
     }
     
-    function handleData(row) {
+    async function handleData(row) {
       const readEpc = {
         lmk_key: row.LMK_KEY,
         lodgement_date: row.LODGEMENT_DATE,
@@ -36,12 +36,17 @@ export default function processSingleFile(relativeFilePath, index, chunkSize = 2
 
       chunkedEpcArray.push(readEpc);
       if (chunkedEpcArray.length >= chunkSize) {
-        insertOrUpdateEpcs(chunkedEpcArray)
+        readable.pause();
+        await insertOrUpdateEpcs(chunkedEpcArray);
+        readable.resume();
         chunkedEpcArray = [];
       }
     }
     
-    function handleEnd(rowCount) {
+    async function handleEnd() {
+      if (chunkedEpcArray.length > 0) {
+        await insertOrUpdateEpcs(chunkedEpcArray);
+      }
       resolve();
     }
   });

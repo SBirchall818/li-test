@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/SBirchall818/li-test#readme",
   "dependencies": {
+    "co": "^4.6.0",
     "esm": "^3.2.25",
     "fast-csv": "^3.4.0",
     "mocha": "^6.2.0",
