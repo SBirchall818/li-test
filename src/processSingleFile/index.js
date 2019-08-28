@@ -3,7 +3,7 @@ import _insertOrUpdateEpcs from './insertOrUpdateEpcs';
 import * as _fs from 'fs';
 import * as _csv from 'fast-csv';
 
-const DATA_DIRECTORY = '/Users/sbirchall/Code/LandInsight/li-test/data/'
+const DATA_DIRECTORY = __dirname + '/../../data/';
 
 export default function processSingleFile(relativeFilePath, index, chunkSize = 24, logger = _logger, fs = _fs, csv = _csv, insertOrUpdateEpcs = _insertOrUpdateEpcs) {
   return new Promise((resolve, reject) => {
