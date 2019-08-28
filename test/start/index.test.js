@@ -11,7 +11,7 @@ describe('fluff :: ', () => {
   it('should call processSingleFile for each file path', async () => {
     var processSingleFileSpy = sinon.stub().resolves(true);
     var fileArray = ['path1', 'path2', 'path3'];
-    await start(fileArray, processSingleFileSpy);
+    await start(fileArray, 24, processSingleFileSpy);
     processSingleFileSpy.calledThrice.should.be.true();
   });
 });
