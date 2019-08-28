@@ -26,3 +26,9 @@ Fully Automated Design
 - How would I scale the import?
 - How often to run the import?
 - How to know if the import has failed
+
+Notes
+---
+
+- Pass in absolute project directory
+- Certificates unzipped into data directory
