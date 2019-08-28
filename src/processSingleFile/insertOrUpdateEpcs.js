@@ -11,11 +11,32 @@ export default async function insertOrUpdateEpcs(chunkedEpcArray, models = _mode
     });
     const arrayOfObjects = yield arrayOfPromises;
 
-    const arrayOfDbCreateTasks = arrayOfObjects.map( epc => {
-      return createTask(epc);
+    const arrayOfDbCheckPromises = arrayOfObjects.map( obj => {
+      return dbCheckTask(obj);
     });
+
+    const arrayOfFoundEpcs = yield arrayOfDbCheckPromises;
+
+    var arrayOfCreateOrUpdateTasks = createArrayOfCreateOrUpdateTasks(arrayOfObjects, arrayOfFoundEpcs);
+
+    yield arrayOfCreateOrUpdateTasks;
   });
-  function createTask(epc) {
-    models.Epc.create(epc);
+
+  function dbCheckTask(obj) {
+    return models.Epc.findOne({ where: {lmk_key: obj.lmk_key}});
+  }
+
+  function createArrayOfCreateOrUpdateTasks(arrayOfObjects, arrayOfFoundEpcs) {
+    var arrayOfCreateOrUpdateTasks = [];
+    for (let i = 0; i < arrayOfObjects.length; i++) {
+      if (arrayOfFoundEpcs[i]) {
+        // If exists update
+        arrayOfCreateOrUpdateTasks.push(models.Epc.update(arrayOfObjects[i], {where: { id: arrayOfFoundEpcs[i].id }}));
+      } else {
+        // If does not exist create
+        arrayOfCreateOrUpdateTasks.push(models.Epc.create(arrayOfObjects[i]));
+      }
+    }
+    return arrayOfCreateOrUpdateTasks;
   }
 }
