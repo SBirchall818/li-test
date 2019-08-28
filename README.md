@@ -10,6 +10,11 @@ Install node libraries
 npm i
 ```
 
+Run
+```
+npm start
+```
+
 Assumptions
 ---
 The external API method can only take a single `ADDRESS` per call but it can respond to an infinte amount of such calls in parallel.
