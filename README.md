@@ -3,6 +3,13 @@
 Overview
 ---
 
+Prerequisites
+---
+Postgres database available on local dev environment with the following credentials
+DATABASE: landinsight
+DATABASE_USER postgres
+DATABASE_PASSWORD postgres
+
 Instructions
 ---
 **Install node libraries**
@@ -18,6 +25,11 @@ npm start
 **Test**
 ```
 npm test
+```
+
+**Reset Database in Postgres**
+```
+DROP TABLE epcs
 ```
 
 Assumptions
