@@ -2,13 +2,14 @@
 
 Overview
 ---
+This program will iterate over directories 1-deep in the *data/* folder and work through each *certificates.csv* file entering `LMK_KEY`, `LODGEMENT_DATE`, `TRANSACTION_TYPE`, `TOTAL_FLOOR_AREA`, `ADDRESS` and `POSTCODE` columns into a local postgres database. If there is a previous record for the EPC entry it will be updated. The API method is called `fetchLatLong` and has been faked.
 
 Prerequisites
 ---
 Postgres database available on local dev environment with the following credentials
-DATABASE: landinsight
-DATABASE_USER postgres
-DATABASE_PASSWORD postgres
+- DATABASE: landinsight
+- DATABASE_USER: postgres
+- DATABASE_PASSWORD postgres
 
 Instructions
 ---
@@ -64,6 +65,7 @@ Future Notes
 - Have more code coverage
 - More defensive programming around user inputs
 - More resiliancy to change in the CSV file format - maybe a pre-flight check on each file to see if the data is still in the correct format.
+- Check the file at the path is present before attempting to open stream
 
 Automating fetching the zip
 ---
